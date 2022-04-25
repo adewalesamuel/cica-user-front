@@ -1,0 +1,7 @@
+.wizard .steps ul li.disabled a .step {
+  border: none !important;
+}
+
+.wizard .steps .current-info {
+  display: block !important;
+}
