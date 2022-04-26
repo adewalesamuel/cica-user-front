@@ -14,11 +14,11 @@ export function ConnexionForm(props) {
             </div>
             <div className='col-12'>
                 <div className='form-group'>
-                    <label htmlFor='mot_de_passe'>Mot de passe</label>
-                    <input className='form-control' type='password' id='mot_de_passe' name='mot_de_passe' 
-                    placeholder='Mot de passe' value={props.mot_de_passe ?? ''}
+                    <label htmlFor='password'>Mot de passe</label>
+                    <input className='form-control' type='password' id='password' name='password' 
+                    placeholder='Mot de passe' value={props.password ?? ''}
                     disabled={props.isDisabled} 
-                    onChange={ e => props.setMot_de_passe(e.target.value) ?? null} required/>
+                    onChange={ e => props.setPassword(e.target.value) ?? null} required/>
                 </div>
             </div>
             

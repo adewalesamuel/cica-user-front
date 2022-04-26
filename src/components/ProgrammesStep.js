@@ -1,12 +1,12 @@
 export function ProgrammesStep(props) {
     return (
         <>
-        <h6 className="py-50">Choisissez vos programmes</h6>
+        <h5 className="py-50">Choisissez vos programmes</h5>
         <ul className="list-unstyled mb-0 mt-2">
             {props.categories.map((categorie, i) => {
                 return (
                     <li key={i}>
-                        <h6 style={{color: categorie.couleur ?? "inherit"}}>{categorie.nom ?? ""}</h6>
+                        <p style={{color: categorie.couleur ?? "inherit"}}>{categorie.nom ?? ""}</p>
                         <ul className="list-unstyled mb-0 mt-2">
                             {categorie.programmes.map((programme, j) => {
                                 return (
@@ -17,7 +17,10 @@ export function ProgrammesStep(props) {
                                                 onChange={e => props.handleCheckbox(e, programme.id)} 
                                                 checked={props.programmeIds.includes(programme.id)} value={""}/>
                                                 <label htmlFor={`programme${programme.id}`} className="pl-1">
-                                                    {programme.titre ?? ''}
+                                                    {programme.titre ?? ''} 
+                                                    <small>
+                                                        &nbsp;le {new Date(programme.date).toLocaleDateString('fr-FR', {month: 'short', day: '2-digit', year: 'numeric'})} à <time>{programme.heure}</time>
+                                                    </small>
                                                 </label>
                                             </div>
                                         </fieldset>

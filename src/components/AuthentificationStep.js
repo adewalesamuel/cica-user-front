@@ -4,26 +4,33 @@ export function AuthentificationStep(props) {
     return (
         <>
         <div className="row">
-            {!props.isSignedIn || props.isLoggedIn ? 
-                <div className="col-12 col-lg-6">
-                    <h6 className="py-50">Inscrivez vous</h6>
+            {!props.isLoggedIn ? 
+             <>
+             {!props.isSignedIn ?
+                <div className="col-12">
+                    <h5 className="py-50">Inscrivez vous</h5>
                     <Components.UtilisateurForm useUtilisateur={props.useUtilisateur}
                     handleFormSubmit={props.handleInscriptionSubmit ?? null}
                     isDisabled={props.isSignInDisabled}/>
                 </div>
+            :null}
+             
+             </>
             : null }
             {!props.isLoggedIn ? 
-                <div className="col-12 col-lg-6">
-                    <h6 className="py-50">Connectez vous</h6>
-                    <Components.ConnexionForm setMot_de_passe={props.setMot_de_passe ?? null}
-                    setEmail={props.setEmail ?? null} mot_de_passe={props.mot_de_passe}
+                <div className="col-6">
+                    <h5 className="py-50">Connectez vous</h5>
+                    <Components.ConnexionForm setPassword={props.setPassword ?? null}
+                    setEmail={props.setEmail ?? null} password={props.password}
                     email={props.email} handleFormSubmit={props.handleConnexionSubmit ?? null}
                     isDisabled={props.isLogInDisabled}/>
                 </div>
             :
-            <div className="alert alert-success">
-                Vous êtes déja connecté veuillez cliquer sur suivant !
-            </div> 
+            <div className="col-12 mt-2">
+                <div className="alert alert-success">
+                    Vous connecté veuillez cliquer sur suivant !
+                </div> 
+            </div>
             }
         </div>
 

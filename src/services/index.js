@@ -6,6 +6,7 @@ import { InscriptionService } from './InscriptionService';
 import { PaiementGatewayService } from './PaiementGatewayService';
 import { TelechargementService } from './TelechargementService';
 import { CategorieService } from './CategorieService';
+import { AuthService } from './AuthService';
 
 export const Services = {
     UtilisateurService,
@@ -16,5 +17,6 @@ export const Services = {
 	PaiementGatewayService,
 	TelechargementService,
 	CategorieService,
+	AuthService
 	
 }

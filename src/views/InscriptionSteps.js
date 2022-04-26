@@ -15,12 +15,11 @@ export function InscriptionSteps(props) {
     const [step, setStep] = useState(1);
     const [programmeIds, setProgrammeIds] = useState([]);
     const [email, setEmail] = useState("");
-    const [mot_de_passe, setMot_de_passe] = useState("");
+    const [password, setPassword] = useState("");
     const [isSignedIn, setIsSignedIn] = useState(Utils.Auth.isLoggedIn());
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isSignInDisabled, setIsSignInDisabled] = useState(false);
     const [isLogInDisabled, setIsLogInDisabled] = useState(false);
-
 
     const handleNext = event => {
         event.preventDefault();
@@ -46,6 +45,11 @@ export function InscriptionSteps(props) {
     }
     const handleInscriptionSubmit = event => {
         event.preventDefault();
+
+        const {password, confirmer_password} = useUtilisateur;
+
+        if (password !== confirmer_password) 
+            return alert("Les mots de passe doivent être identique!");
         
         setIsSignInDisabled(true);
 
@@ -62,6 +66,25 @@ export function InscriptionSteps(props) {
     }
     const handleConnexionSubmit = event => {
         event.preventDefault();
+
+        const payload = {
+            email,
+            password
+        };
+
+        setIsLogInDisabled(true);
+        Services.AuthService.login(JSON.stringify(payload), abortController.signal)
+        .then(response => {
+            setIsLoggedIn(true);
+            setIsLogInDisabled(false);
+
+            Utils.Auth.setSessionToken(response.utilisateur.api_token);
+            Utils.Auth.setUser(response.utilisateur);
+        })
+        .catch(err => {
+            setIsLogInDisabled(false);
+        })
+
     }
 
     useEffect(() => {
@@ -88,7 +111,8 @@ export function InscriptionSteps(props) {
                         </div>
                         <div className="card-content mt-2">
                             <div className="card-body">
-                            <form action="#" className="wizard-horizontal wizard clearfix">
+                            <form action="#" className="wizard-horizontal wizard clearfix" 
+                            onSubmit={e => null}>
                                <Components.Steps>
                                    <Components.StepItem isFirst={true} title="Packs" isCurrent={true}/>
                                    <Components.StepItem title="Programmes" isCurrent={false}/>
@@ -102,18 +126,23 @@ export function InscriptionSteps(props) {
                                     programmeIds={programmeIds}/>
                                 : null }
                                 {step === 3 ? 
-                                    <Components.AuthentificationStep useUtilisateur={useUtilisateur} isLogInDisabled={isLogInDisabled}
-                                    setMot_de_passe={setMot_de_passe} setEmail={setEmail} mot_de_passe={mot_de_passe}
-                                    email={email} handleConnexionSubmit={handleConnexionSubmit} isSignInDisabled={isSignInDisabled}
-                                    handleInscriptionSubmit={handleInscriptionSubmit} isSignedIn={isSignedIn} isLoggedIn={isLoggedIn}/>
+                                    <Components.AuthentificationStep useUtilisateur={useUtilisateur} 
+                                    isLogInDisabled={isLogInDisabled} setPassword={setPassword} 
+                                    setEmail={setEmail} password={password} email={email} 
+                                    handleConnexionSubmit={handleConnexionSubmit} isSignInDisabled={isSignInDisabled}
+                                    handleInscriptionSubmit={handleInscriptionSubmit} isSignedIn={isSignedIn} 
+                                    isLoggedIn={isLoggedIn}/>
                                 : null }
                                <div className="actions clearfix mt-3">
                                    <ul role="menu" aria-label="Pagination">
                                         <li className="">
-                                           <button className="btn btn-light" hidden={step === 1} onClick={handlePrevious}>Pécedent</button>
+                                           <button className="btn btn-light" type="button" hidden={step === 1} 
+                                           onClick={handlePrevious}>Pécedent</button>
                                         </li>
                                         <li>
-                                            <button className="btn btn-primary" onClick={handleNext}>Suivant</button>
+                                            <button className="btn btn-primary" type="button" onClick={handleNext}>
+                                                Suivant
+                                            </button>
                                         </li>
                                         <li>
                                             <button className="btn btn-success">Valider</button>

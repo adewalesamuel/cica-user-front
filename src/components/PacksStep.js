@@ -1,7 +1,7 @@
 export function PacksStep(props) {
     return (
         <>
-        <h6 className="py-50">Choisissez un pack</h6>
+        <h5 className="py-50">Choisissez un pack</h5>
         <ul className="list-unstyled mb-0 mt-2">
             {props.packs.map((pack, index) => {
                 return (
