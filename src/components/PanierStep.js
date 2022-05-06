@@ -42,9 +42,9 @@ export function PanierStep(props) {
                                         })}
                                     </ul>
                                 </td>
-                                <td>{getPack().prix}</td>
+                                <td className="text-danger">€ {getPack().prix}</td>
                                 <td></td>
-                                <td>{getPack().prix}</td>
+                                <td className="text-danger">€ {getPack().prix}</td>
                             </tr>
 
                         </tbody>

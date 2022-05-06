@@ -4,6 +4,13 @@ import { Services } from "../services";
 import { Hooks }from "../hooks";
 import { Utils } from "../utils";
 
+import heroBgImage from '../app-assets/images/backgrounds/inscription-image-bg.jpg';
+import packIcon from '../app-assets/images/icon/packs.svg';
+import programmeIcon from '../app-assets/images/icon/programmes.svg';
+import authIcon from '../app-assets/images/icon/authentfication.svg';
+import resumeIcon from '../app-assets/images/icon/resume.svg';
+import payIcon from '../app-assets/images/icon/paiement.svg';
+
 export function InscriptionSteps(props) {
     const abortController = new AbortController();
 
@@ -113,66 +120,75 @@ export function InscriptionSteps(props) {
     }, [])
     
     return (
-        <section id="icon-tabs" className="container">
-            <div className="row">
-                <div className="col-12">
-                    <div className="card">
-                        <div className="card-header">
-                            <h1 className="card-title">Etapes de réservation</h1>
-                        </div>
-                        <div className="card-content mt-2">
-                            <div className="card-body">
-                            <form action="#" className="wizard-horizontal wizard clearfix" 
-                            onSubmit={e => e.preventDefault()}>
-                               <Components.Steps>
-                                   <Components.StepItem isFirst={true} title="Packs" isCurrent={step === 1}/>
-                                   <Components.StepItem title="Programmes" isCurrent={step === 2}/>
-                                   <Components.StepItem title="Inscription" isCurrent={step === 3}/>
-                                   <Components.StepItem title="Resume" isCurrent={step === 4}/>
-                               </Components.Steps>
+        <>
+            <section className="text-center hero" style={{backgroundImage: `url(${heroBgImage})`}}>
+                <h1 className="text-white">Reservation</h1>
+            </section>
+            <section id="icon-tabs" className="container">
+                <div className="row">
+                    <div className="col-12">
+                        <div className="card">
+                            <div className="card-header">
+                                <h1 className="card-title">Etapes de réservation</h1>
+                            </div>
+                            <div className="card-content mt-2">
+                                <div className="card-body">
+                                <form action="#" className="wizard-horizontal wizard clearfix" 
+                                onSubmit={e => e.preventDefault()}>
+                                <Components.Steps>
+                                    <Components.StepItem isFirst={true} title="Packs" icon={packIcon} isCurrent={step === 1}/>
+                                    <Components.StepItem title="Programmes" icon={programmeIcon} isCurrent={step === 2}/>
+                                    <Components.StepItem title="Authentification" icon={authIcon} isCurrent={step === 3}/>
+                                    <Components.StepItem title="Resume" icon={resumeIcon} isCurrent={step === 4}/>
+                                    <Components.StepItem title="Paiement" icon={payIcon} isCurrent={step === 5}/>
+                                </Components.Steps>
 
-                                {step === 1 ? 
-                                    <Components.PacksStep usePack={usePack} packs={packs} />
-                                : null }
-                                {step === 2 ? 
-                                    <Components.ProgrammesStep categories={categories} handleCheckbox={handleCheckbox}
-                                    programmeIds={programmeIds}/>
-                                : null }
-                                {step === 3 ? 
-                                    <Components.AuthentificationStep useUtilisateur={useUtilisateur} 
-                                    isLogInDisabled={isLogInDisabled} setPassword={setPassword} 
-                                    setEmail={setEmail} password={password} email={email} 
-                                    handleConnexionSubmit={handleConnexionSubmit} isSignInDisabled={isSignInDisabled}
-                                    handleInscriptionSubmit={handleInscriptionSubmit} isSignedIn={isSignedIn} 
-                                    isLoggedIn={isLoggedIn} setHasAccount={setHasAccount} hasAccount={hasAccount}/>
-                                : null }
-                                {step === 4 ? 
-                                    <Components.PanierStep categories={categories} programmeIds={programmeIds} 
-                                    usePack={usePack} packs={packs}/>
-                                : null}
-                               <div className="actions clearfix mt-3">
-                                   <ul role="menu" aria-label="Pagination">
-                                        <li className="">
-                                           <button className="btn btn-light" type="button" hidden={step === 1} 
-                                           onClick={handlePrevious}>Pécedent</button>
-                                        </li>
-                                        <li>
-                                            <button className="btn btn-primary" type="button" onClick={handleNext}>
-                                                Suivant
-                                            </button>
-                                        </li>
-                                        <li>
-                                            <button className="btn btn-success">Valider</button>
-                                        </li>
-                                    </ul>
+                                    {step === 1 ? 
+                                        <Components.PacksStep usePack={usePack} packs={packs} />
+                                    : null }
+                                    {step === 2 ? 
+                                        <Components.ProgrammesStep categories={categories} handleCheckbox={handleCheckbox}
+                                        programmeIds={programmeIds}/>
+                                    : null }
+                                    {step === 3 ? 
+                                        <Components.AuthentificationStep useUtilisateur={useUtilisateur} 
+                                        isLogInDisabled={isLogInDisabled} setPassword={setPassword} 
+                                        setEmail={setEmail} password={password} email={email} 
+                                        handleConnexionSubmit={handleConnexionSubmit} isSignInDisabled={isSignInDisabled}
+                                        handleInscriptionSubmit={handleInscriptionSubmit} isSignedIn={isSignedIn} 
+                                        isLoggedIn={isLoggedIn} setHasAccount={setHasAccount} hasAccount={hasAccount}/>
+                                    : null }
+                                    {step === 4 ? 
+                                        <Components.PanierStep categories={categories} programmeIds={programmeIds} 
+                                        usePack={usePack} packs={packs}/>
+                                    : null}
+                                    {step === 5 ? 
+                                        <Components.PaiementStep />
+                                    : null}
+                                <div className="actions clearfix mt-3">
+                                    <ul role="menu" aria-label="Pagination">
+                                            <li className="">
+                                            <button className="btn btn-light" type="button" hidden={step === 1} 
+                                            onClick={handlePrevious}>Pécedent</button>
+                                            </li>
+                                            <li>
+                                                <button className="btn btn-primary" type="button" onClick={handleNext}>
+                                                    Suivant
+                                                </button>
+                                            </li>
+                                            <li>
+                                                <button className="btn btn-success">Valider</button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </form>
                                 </div>
-                            </form>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </>
     )
 
 }

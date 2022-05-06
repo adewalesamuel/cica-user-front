@@ -15,6 +15,7 @@ import { PacksStep } from './PacksStep';
 import { ProgrammesStep } from './ProgrammesStep';
 import { AuthentificationStep } from './AuthentificationStep';
 import { PanierStep } from './PanierStep';
+import { PaiementStep } from './PaiementStep';
 
 export const Components = {
     UtilisateurForm,
@@ -31,5 +32,6 @@ export const Components = {
 	PacksStep,
 	ProgrammesStep,
 	AuthentificationStep,
-	PanierStep
+	PanierStep,
+	PaiementStep
 }

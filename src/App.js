@@ -20,12 +20,10 @@ function App() {
       <div className="app-content content">
         <div className="content-overlay"></div>
 
-        <div className="content-wrapper">
           <div className="content-body">
           <Routes>
             <Route path='/inscription' element={<Views.InscriptionSteps />}/>
           </Routes>
-          </div>
           </div>
       </div>
     </BrowserRouter>

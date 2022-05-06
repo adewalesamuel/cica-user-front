@@ -5,10 +5,7 @@ export function StepItem(props) {
                 <span className="current-info audible">{props.title ?? ''}</span>
                 <span className="step"><i className="step-icon bx bx-time-five"></i></span> 
                 <span className="fonticon-wrap">
-                    <i className="livicon-evo livicon-evo-holder livicon-evo-error" 
-                    data-options="name:morph-doc.svg; size: 50px; style:lines; strokeColor:#adb5bd;">
-                        <span></span>
-                    </i>
+                    <img src={props.icon} width={'auto'} height={42}/>
                 </span>
             </a>
         </li>
