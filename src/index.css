@@ -5,3 +5,15 @@
 .wizard .steps .current-info {
   display: block !important;
 }
+
+ul {
+  list-style-type: none;
+}
+
+table thead {
+  border:  1px soldi lightgrey;
+}
+
+table th {
+  border: 1px solid lightgrey;
+}

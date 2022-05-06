@@ -14,6 +14,7 @@ import { BreadCrump } from './BreadCrump';
 import { PacksStep } from './PacksStep';
 import { ProgrammesStep } from './ProgrammesStep';
 import { AuthentificationStep } from './AuthentificationStep';
+import { PanierStep } from './PanierStep';
 
 export const Components = {
     UtilisateurForm,
@@ -29,5 +30,6 @@ export const Components = {
 	StepItem,
 	PacksStep,
 	ProgrammesStep,
-	AuthentificationStep
+	AuthentificationStep,
+	PanierStep
 }

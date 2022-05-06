@@ -8,7 +8,7 @@ export function PacksStep(props) {
                     <li className="d-block mr-2 mb-1" key={index}>
                         <fieldset>
                             <div className="radio">
-                                <input type="radio" name="pack_id" id={`pack${pack.id}`} value={props.usePack.id ?? ''}
+                                <input type="radio" name="pack_id" id={`pack${pack.id}`} checked={pack.id === props.usePack.id}
                                 onChange={e => props.usePack.setId(pack.id)}/>
                                 <label htmlFor={`pack${pack.id}`}>
                                     <span className="pl-1">{pack.qualification ?? ''}</span>

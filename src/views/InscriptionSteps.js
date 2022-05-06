@@ -16,10 +16,11 @@ export function InscriptionSteps(props) {
     const [programmeIds, setProgrammeIds] = useState([]);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [isSignedIn, setIsSignedIn] = useState(Utils.Auth.isLoggedIn());
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isSignedIn, setIsSignedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(Utils.Auth.isLoggedIn());
     const [isSignInDisabled, setIsSignInDisabled] = useState(false);
     const [isLogInDisabled, setIsLogInDisabled] = useState(false);
+    const [hasAccount, setHasAccount] = useState(false);
 
     const handleNext = event => {
         event.preventDefault();
@@ -50,6 +51,9 @@ export function InscriptionSteps(props) {
 
         if (password !== confirmer_password) 
             return alert("Les mots de passe doivent être identique!");
+
+        if (!useUtilisateur.has_accepted_conditions)
+            return alert("Vous devez accepter les conditions d'utilisation")
         
         setIsSignInDisabled(true);
 
@@ -58,6 +62,9 @@ export function InscriptionSteps(props) {
         .then(response => {
             setIsSignedIn(true);
             setIsSignInDisabled(false);
+
+            useUtilisateur.setId(response.utilisateur.id);
+            setStep(4)
         })
         .catch(err => {
             console.log(err);
@@ -78,8 +85,12 @@ export function InscriptionSteps(props) {
             setIsLoggedIn(true);
             setIsLogInDisabled(false);
 
+            useUtilisateur.setId(response.utilisateur.id);
+
             Utils.Auth.setSessionToken(response.utilisateur.api_token);
             Utils.Auth.setUser(response.utilisateur);
+
+            setStep(4)
         })
         .catch(err => {
             setIsLogInDisabled(false);
@@ -88,8 +99,8 @@ export function InscriptionSteps(props) {
     }
 
     useEffect(() => {
-      Services.PackService.getAll(abortController.signal)
-      .then(response => {
+        Services.PackService.getAll(abortController.signal)
+        .then(response => {
           setPacks(response.packs);
           Services.CategorieService.getAll(abortController.signal)
           .then(response => setCategories(response.categories))
@@ -112,10 +123,12 @@ export function InscriptionSteps(props) {
                         <div className="card-content mt-2">
                             <div className="card-body">
                             <form action="#" className="wizard-horizontal wizard clearfix" 
-                            onSubmit={e => null}>
+                            onSubmit={e => e.preventDefault()}>
                                <Components.Steps>
-                                   <Components.StepItem isFirst={true} title="Packs" isCurrent={true}/>
-                                   <Components.StepItem title="Programmes" isCurrent={false}/>
+                                   <Components.StepItem isFirst={true} title="Packs" isCurrent={step === 1}/>
+                                   <Components.StepItem title="Programmes" isCurrent={step === 2}/>
+                                   <Components.StepItem title="Inscription" isCurrent={step === 3}/>
+                                   <Components.StepItem title="Resume" isCurrent={step === 4}/>
                                </Components.Steps>
 
                                 {step === 1 ? 
@@ -131,8 +144,12 @@ export function InscriptionSteps(props) {
                                     setEmail={setEmail} password={password} email={email} 
                                     handleConnexionSubmit={handleConnexionSubmit} isSignInDisabled={isSignInDisabled}
                                     handleInscriptionSubmit={handleInscriptionSubmit} isSignedIn={isSignedIn} 
-                                    isLoggedIn={isLoggedIn}/>
+                                    isLoggedIn={isLoggedIn} setHasAccount={setHasAccount} hasAccount={hasAccount}/>
                                 : null }
+                                {step === 4 ? 
+                                    <Components.PanierStep categories={categories} programmeIds={programmeIds} 
+                                    usePack={usePack} packs={packs}/>
+                                : null}
                                <div className="actions clearfix mt-3">
                                    <ul role="menu" aria-label="Pagination">
                                         <li className="">

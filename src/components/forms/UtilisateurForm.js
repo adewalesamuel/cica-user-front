@@ -135,7 +135,7 @@ export function UtilisateurForm(props) {
                     <input className='form-control' type='text' id='autres' name='autres' 
                     placeholder='Requêtes spéciales' value={props.useUtilisateur.autres ?? ''}
                     disabled={props.isDisabled} 
-                    onChange={ e => props.useUtilisateur.setAutres(e.target.value) ?? null} required/>
+                    onChange={ e => props.useUtilisateur.setAutres(e.target.value) ?? null} />
                 </div>
             </div>
             <div className="col-12 mt-2">

@@ -6,7 +6,7 @@ export function ConnexionForm(props) {
             <div className='col-12'>
                 <div className='form-group'>
                     <label htmlFor='email'>Email</label>
-                    <input className='form-control' type='mail' id='email' name='email' 
+                    <input className='form-control' type='email' id='email' name='email' 
                     placeholder='Email' value={props.email ?? ''}
                     disabled={props.isDisabled} 
                     onChange={ e => props.setEmail(e.target.value) ?? null} required/>
