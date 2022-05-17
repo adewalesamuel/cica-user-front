@@ -1,7 +1,7 @@
 export function PanierStep(props) {
     const getPack = () => {
         const packs = props.packs ?? [];
-        return props.packs.find(pack => pack.id === props.usePack.id)
+        return packs.find(pack => pack.id === props.usePack.id)
     }
     return (
         <div className="row">
@@ -24,7 +24,7 @@ export function PanierStep(props) {
                                 <td>
                                     <ul>
                                         <li style={{textTransform: 'uppercase'}} className='mb-1'>
-                                            {getPack().qualification}
+                                            {getPack() ? getPack().qualification: ''}
                                         </li>
                                         {props.categories.map(categorie => {
                                             return (
@@ -42,13 +42,29 @@ export function PanierStep(props) {
                                         })}
                                     </ul>
                                 </td>
-                                <td className="text-danger">€ {getPack().prix}</td>
+                                <td className="text-danger">€ {getPack() ? getPack().prix : ''}</td>
                                 <td></td>
-                                <td className="text-danger">€ {getPack().prix}</td>
+                                <td className="text-danger">€ {getPack() ? getPack().prix : ''}</td>
                             </tr>
 
                         </tbody>
                     </table>
+                </div>
+                <div className="row mt-2">
+                    <div className="col-12 col-lg-6">
+                        <div className="form-group">
+                            <label htmlFor="paiement_gateway">Moyens de paiement</label>
+                            <select className="form-control" id="paiement_gateway" 
+                            onChange={e => props.usePaiementGateway.setId(e.target.value)}>
+                                <option hidden>Selectionnez un moyen de paiement</option>
+                                {props.paiement_gateways.map((paiement_gateway, index) => {
+                                    return (
+                                        <option value={paiement_gateway.id} key={index}>{paiement_gateway.nom}</option>
+                                    )
+                                })}
+                            </select>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

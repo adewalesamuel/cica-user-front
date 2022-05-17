@@ -27,3 +27,8 @@ table th {
   padding: 8% 0 !important;
   width: 100%;
 }
+
+.footer {
+  position: relative !important;
+  left: 0 !important;
+}

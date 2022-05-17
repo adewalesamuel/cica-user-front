@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Components } from "../components";
 import { Services } from "../services";
-import { Hooks }from "../hooks";
+import { Hooks } from "../hooks";
 import { Utils } from "../utils";
 
 import heroBgImage from '../app-assets/images/backgrounds/inscription-image-bg.jpg';
@@ -9,16 +9,17 @@ import packIcon from '../app-assets/images/icon/packs.svg';
 import programmeIcon from '../app-assets/images/icon/programmes.svg';
 import authIcon from '../app-assets/images/icon/authentfication.svg';
 import resumeIcon from '../app-assets/images/icon/resume.svg';
-import payIcon from '../app-assets/images/icon/paiement.svg';
 
 export function InscriptionSteps(props) {
     const abortController = new AbortController();
 
     const usePack = Hooks.usePack();
     const useUtilisateur = Hooks.useUtilisateur();
+    const usePaiementGateway = Hooks.usePaiementGateway();
 
     const [packs, setPacks] = useState([]);
     const [categories, setCategories] = useState([]);
+    const [paiement_gateways, setPaiement_gateways] = useState([]);
     const [step, setStep] = useState(1);
     const [programmeIds, setProgrammeIds] = useState([]);
     const [email, setEmail] = useState("");
@@ -105,20 +106,38 @@ export function InscriptionSteps(props) {
 
     }
 
+    const handlePaiementSubmit = event => {
+        event.preventDefault();
+
+        const payload = {
+            utilisateur_id: useUtilisateur.id,
+            pack_id: usePack.id,
+        }
+    }
+
     useEffect(() => {
-        Services.PackService.getAll(abortController.signal)
-        .then(response => {
-          setPacks(response.packs);
-          Services.CategorieService.getAll(abortController.signal)
-          .then(response => setCategories(response.categories))
-        })
-        .catch(err => console.log(err));
-    
+        (async function(){
+            try {
+                let response = null;
+                response = await Services.PackService.getAll(abortController.signal);
+
+                setPacks(response.packs);
+
+                response = await Services.CategorieService.getAll(abortController.signal);
+
+                setCategories(response.categories);
+
+                response = await Services.PaiementGatewayService.getAll(abortController.signal);
+
+                setPaiement_gateways(response.paiement_gateways)
+            } catch (error) {
+                console.log(error)   
+            }
+        })()
       return () => {
         //
       }
     }, [])
-    
     return (
         <>
             <section className="text-center hero" style={{backgroundImage: `url(${heroBgImage})`}}>
@@ -140,7 +159,6 @@ export function InscriptionSteps(props) {
                                     <Components.StepItem title="Programmes" icon={programmeIcon} isCurrent={step === 2}/>
                                     <Components.StepItem title="Authentification" icon={authIcon} isCurrent={step === 3}/>
                                     <Components.StepItem title="Resume" icon={resumeIcon} isCurrent={step === 4}/>
-                                    <Components.StepItem title="Paiement" icon={payIcon} isCurrent={step === 5}/>
                                 </Components.Steps>
 
                                     {step === 1 ? 
@@ -160,21 +178,23 @@ export function InscriptionSteps(props) {
                                     : null }
                                     {step === 4 ? 
                                         <Components.PanierStep categories={categories} programmeIds={programmeIds} 
-                                        usePack={usePack} packs={packs}/>
-                                    : null}
-                                    {step === 5 ? 
-                                        <Components.PaiementStep />
+                                        usePack={usePack} packs={packs} paiement_gateways={paiement_gateways}
+                                        usePaiementGateway={usePaiementGateway}/>
                                     : null}
                                 <div className="actions clearfix mt-3">
                                     <ul role="menu" aria-label="Pagination">
                                             <li className="">
-                                            <button className="btn btn-light" type="button" hidden={step === 1} 
-                                            onClick={handlePrevious}>Pécedent</button>
+                                                {step > 1 ? 
+                                                    <button className="btn btn-light" type="button" hidden={step === 1} 
+                                                    onClick={handlePrevious}>Pécedent</button>
+                                                : null}
                                             </li>
                                             <li>
-                                                <button className="btn btn-primary" type="button" onClick={handleNext}>
-                                                    Suivant
-                                                </button>
+                                                {step < 4 ? 
+                                                    <button className="btn btn-primary" type="button" onClick={handleNext}>
+                                                        Suivant
+                                                    </button>
+                                                : null}
                                             </li>
                                             <li>
                                                 <button className="btn btn-success">Valider</button>

@@ -1,3 +1,12 @@
+import { MainLayout } from './layouts/MainLayout';
+import { AuthLayout } from './layouts/AuthLayout';
+
+import { Header } from './Header';
+import { MainMenu } from './MainMenu';
+import { Footer } from './Footer';
+
+import { Table } from './Table';
+
 import { UtilisateurForm } from './forms/UtilisateurForm';
 import { ResumeForm } from './forms/ResumeForm';
 import { ProgrammeForm } from './forms/ProgrammeForm';
@@ -15,9 +24,14 @@ import { PacksStep } from './PacksStep';
 import { ProgrammesStep } from './ProgrammesStep';
 import { AuthentificationStep } from './AuthentificationStep';
 import { PanierStep } from './PanierStep';
-import { PaiementStep } from './PaiementStep';
 
 export const Components = {
+	MainLayout,
+	AuthLayout,
+	Header,
+	MainMenu,
+	Footer,
+	Table,
     UtilisateurForm,
 	ResumeForm,
 	ProgrammeForm,
@@ -33,5 +47,5 @@ export const Components = {
 	ProgrammesStep,
 	AuthentificationStep,
 	PanierStep,
-	PaiementStep
+	
 }

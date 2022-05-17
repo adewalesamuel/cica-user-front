@@ -1,3 +1,4 @@
+import { Utils } from '../utils';
 import { Api } from './Api';
 
 const  ENPOINTS = {
@@ -6,6 +7,10 @@ const  ENPOINTS = {
 
 const getAll = signal => {
     return Api.get(ENPOINTS.Utilisateur, signal)
+}
+
+const getAllResume = signal => {
+    return Api.get(`${ENPOINTS.Utilisateur}/${Utils.Auth.getUser() ? Utils.Auth.getUser().id : ''}/resumes`);
 }
 
 const getById = (id, signal) => {
@@ -25,6 +30,7 @@ const destroy = (id, signal) => {
 
 export const UtilisateurService = {
     getAll,
+    getAllResume,
     getById,
     create,
     update,

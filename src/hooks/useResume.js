@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import { Services } from '../services';
+import { Utils } from '../utils';
 
 export const useResume = () => {
     const [id, setId] = useState('');
 	const [titre, setTitre] = useState('');
-	const [mot_cles, setMot_cles] = useState('');
+	const [mots_cles, setMots_cles] = useState('');
 	const [auteurs, setAuteurs] = useState('');
 	const [contenu, setContenu] = useState('');
-	const [status, setStatus] = useState('');
-	const [utilsateur_id, setUtilsateur_id] = useState('');
+	const [status, setStatus] = useState('brouillon');
+	const [utilisateur_id, setUtilsateur_id] = useState(Utils.Auth.getUser() ? Utils.Auth.getUser().id : '');
 	
 
     const [errors, setErrors] = useState([]);
@@ -25,11 +26,11 @@ export const useResume = () => {
     const createResume = signal => {
         const payload = {
             titre,
-		mot_cles,
-		auteurs,
+		mots_cles,
+		auteurs: JSON.stringify(auteurs),
 		contenu,
 		status,
-		utilsateur_id,
+		utilisateur_id,
 		
         };
 
@@ -38,11 +39,11 @@ export const useResume = () => {
     const updateResume = (resumeId, signal) => {
         const payload = {
             titre,
-		mot_cles,
-		auteurs,
+		mots_cles,
+		auteurs: JSON.stringify(auteurs),
 		contenu,
 		status,
-		utilsateur_id,
+		utilisateur_id,
 		
         };
 
@@ -54,17 +55,17 @@ export const useResume = () => {
     const fillResume = (resume) => {
         setId(resume.id);
         setTitre(resume.titre ?? '');
-		setMot_cles(resume.mot_cles ?? '');
-		setAuteurs(resume.auteurs ?? '');
+		setMots_cles(resume.mots_cles ?? '');
+		setAuteurs(resume.auteurs ? JSON.parse(resume.auteurs): '');
 		setContenu(resume.contenu ?? '');
 		setStatus(resume.status ?? '');
-		setUtilsateur_id(resume.utilsateur_id ?? '');
+		setUtilsateur_id(resume.utilisateur_id ?? '');
 		
     }
     const emptyResume = () => {
         setId('');
         setTitre('');
-		setMot_cles('');
+		setMots_cles('');
 		setAuteurs('');
 		setContenu('');
 		setStatus('');
@@ -75,16 +76,16 @@ export const useResume = () => {
     return {
         id,
         titre,
-		mot_cles,
+		mots_cles,
 		auteurs,
 		contenu,
 		status,
-		utilsateur_id,
+		utilisateur_id,
 		
         errors,
         isDisabled,
         setTitre,
-		setMot_cles,
+		setMots_cles,
 		setAuteurs,
 		setContenu,
 		setStatus,
