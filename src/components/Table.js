@@ -121,7 +121,7 @@ export function Table(props) {
 
     return(
         <div className="table-responsive">
-            <table className="table">
+            <table className="table table-bordered">
                 <thead>
                     <tr>
                         { renderTableHead() }

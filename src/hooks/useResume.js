@@ -7,10 +7,10 @@ export const useResume = () => {
 	const [titre, setTitre] = useState('');
 	const [mots_cles, setMots_cles] = useState('');
 	const [auteurs, setAuteurs] = useState('');
-	const [contenu, setContenu] = useState('');
-	const [status, setStatus] = useState('brouillon');
-	const [utilisateur_id, setUtilsateur_id] = useState(Utils.Auth.getUser() ? Utils.Auth.getUser().id : '');
-	
+	const [fichier_url, setFichier_url] = useState('');
+    const [fichier, setFichier] = useState(null);
+    const [status, setStatus] = useState('brouillon');
+	const [utilisateur_id, setUtilisateur_id] = useState(Utils.Auth.getUser() ? Utils.Auth.getUser().id : '');
 
     const [errors, setErrors] = useState([]);
     const [isDisabled, setIsDisabled] = useState(false);
@@ -24,30 +24,28 @@ export const useResume = () => {
     }
 
     const createResume = signal => {
-        const payload = {
-            titre,
-		mots_cles,
-		auteurs: JSON.stringify(auteurs),
-		contenu,
-		status,
-		utilisateur_id,
-		
-        };
+        const formData = new FormData();
 
-        return Services.ResumeService.create(JSON.stringify(payload), signal);
+        formData.append('titre', titre);
+        formData.append('mots_cles', mots_cles);
+        formData.append('auteurs', JSON.stringify(auteurs));
+        formData.append('fichier', fichier);
+        formData.append('status', status);
+        formData.append('utilisateur_id', utilisateur_id);
+
+        return Services.ResumeService.create(formData, signal);
     }
     const updateResume = (resumeId, signal) => {
-        const payload = {
-            titre,
-		mots_cles,
-		auteurs: JSON.stringify(auteurs),
-		contenu,
-		status,
-		utilisateur_id,
-		
-        };
+        const formData = new FormData();
 
-        return Services.ResumeService.update(resumeId, JSON.stringify(payload), signal);
+        formData.append('titre', titre);
+        formData.append('mots_cles', mots_cles);
+        formData.append('auteurs', JSON.stringify(auteurs));
+        formData.append('fichier', fichier);
+        formData.append('status', status);
+        formData.append('utilisateur_id', utilisateur_id);
+
+        return Services.ResumeService.update(resumeId, formData, signal);
     }
     const deleteResume = (resumeId, signal) => {
         return Services.ResumeService.destroy(resumeId, signal);
@@ -57,9 +55,9 @@ export const useResume = () => {
         setTitre(resume.titre ?? '');
 		setMots_cles(resume.mots_cles ?? '');
 		setAuteurs(resume.auteurs ? JSON.parse(resume.auteurs): '');
-		setContenu(resume.contenu ?? '');
+		setFichier_url(resume.fichier_url ?? '');
 		setStatus(resume.status ?? '');
-		setUtilsateur_id(resume.utilisateur_id ?? '');
+		setUtilisateur_id(resume.utilisateur_id ?? '');
 		
     }
     const emptyResume = () => {
@@ -67,9 +65,10 @@ export const useResume = () => {
         setTitre('');
 		setMots_cles('');
 		setAuteurs('');
-		setContenu('');
+		setFichier(null);
+        setFichier_url('');
 		setStatus('');
-		setUtilsateur_id('');
+		setUtilisateur_id('');
 		
     }
 
@@ -78,7 +77,8 @@ export const useResume = () => {
         titre,
 		mots_cles,
 		auteurs,
-		contenu,
+		fichier_url,
+		fichier,
 		status,
 		utilisateur_id,
 		
@@ -87,9 +87,10 @@ export const useResume = () => {
         setTitre,
 		setMots_cles,
 		setAuteurs,
-		setContenu,
+		setFichier_url,
+		setFichier,
 		setStatus,
-		setUtilsateur_id,
+		setUtilisateur_id,
 		
         setId,
         setErrors,
