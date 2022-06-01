@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Components } from "../components";
 import { Services } from "../services";
 import { Hooks } from "../hooks";
@@ -11,7 +11,9 @@ import authIcon from '../app-assets/images/icon/authentfication.svg';
 import resumeIcon from '../app-assets/images/icon/resume.svg';
 
 export function InscriptionSteps(props) {
-    const abortController = new AbortController();
+    const abortController = useMemo(() => {
+        return new AbortController();
+    }, []);
 
     const usePack = Hooks.usePack();
     const useUtilisateur = Hooks.useUtilisateur();
@@ -28,6 +30,7 @@ export function InscriptionSteps(props) {
     const [isLoggedIn, setIsLoggedIn] = useState(Utils.Auth.isLoggedIn());
     const [isSignInDisabled, setIsSignInDisabled] = useState(false);
     const [isLogInDisabled, setIsLogInDisabled] = useState(false);
+    const [isDisabled, setIsDisabled] = useState(false);
     const [hasAccount, setHasAccount] = useState(false);
 
     const handleNext = event => {
@@ -61,18 +64,22 @@ export function InscriptionSteps(props) {
             return alert("Les mots de passe doivent être identique!");
 
         if (!useUtilisateur.has_accepted_conditions)
-            return alert("Vous devez accepter les conditions d'utilisation")
+            return alert("Vous devez accepter les conditions d'utilisation");
         
         setIsSignInDisabled(true);
 
-        useUtilisateur.setHas_accepted_conditions(true);
         useUtilisateur.createUtilisateur(abortController.signal)
         .then(response => {
             setIsSignedIn(true);
+            setIsLoggedIn(true);
             setIsSignInDisabled(false);
 
             useUtilisateur.setId(response.utilisateur.id);
-            setStep(4)
+
+            Utils.Auth.setSessionToken(response.utilisateur.api_token);
+            Utils.Auth.setUser(response.utilisateur);
+
+            setStep(4);
         })
         .catch(err => {
             console.log(err);
@@ -98,21 +105,35 @@ export function InscriptionSteps(props) {
             Utils.Auth.setSessionToken(response.utilisateur.api_token);
             Utils.Auth.setUser(response.utilisateur);
 
-            setStep(4)
+            setStep(4);
         })
         .catch(err => {
             setIsLogInDisabled(false);
-        })
+        });
 
-    }
-
+    };
     const handlePaiementSubmit = event => {
         event.preventDefault();
 
-        const payload = {
-            utilisateur_id: useUtilisateur.id,
+        let payload = {
             pack_id: usePack.id,
-        }
+            programme_ids: JSON.stringify(programmeIds),
+            utilisateur_id: Utils.Auth.getUser() ? Utils.Auth.getUser().id : null,
+            prix: usePack.prix,
+            mode_paiement: usePaiementGateway.nom
+        };
+
+        setIsDisabled(true);
+        Services.InscriptionService.create(JSON.stringify(payload), abortController.signal)
+        .then(response => {
+            console.log(response);
+            setStep(5);
+            setIsDisabled(false)
+        })
+        .catch(err => {
+            console.log(err)
+            setIsDisabled(false);
+        });
     }
 
     useEffect(() => {
@@ -129,15 +150,15 @@ export function InscriptionSteps(props) {
 
                 response = await Services.PaiementGatewayService.getAll(abortController.signal);
 
-                setPaiement_gateways(response.paiement_gateways)
+                setPaiement_gateways(response.paiement_gateways);
             } catch (error) {
-                console.log(error)   
-            }
-        })()
+                console.log(error);   
+            };
+        })();
       return () => {
         //
       }
-    }, [])
+    }, [abortController])
     return (
         <>
             <section className="text-center hero" style={{backgroundImage: `url(${heroBgImage})`}}>
@@ -181,24 +202,31 @@ export function InscriptionSteps(props) {
                                         usePack={usePack} packs={packs} paiement_gateways={paiement_gateways}
                                         usePaiementGateway={usePaiementGateway}/>
                                     : null}
+                                    {step === 5 ? 
+                                        <Components.ThankyouStep />
+                                    : null}
                                 <div className="actions clearfix mt-3">
                                     <ul role="menu" aria-label="Pagination">
                                             <li className="">
-                                                {step > 1 ? 
+                                                {(step > 1 && step < 5) ? 
                                                     <button className="btn btn-light" type="button" hidden={step === 1} 
                                                     onClick={handlePrevious}>Pécedent</button>
                                                 : null}
                                             </li>
-                                            <li>
-                                                {step < 4 ? 
+                                            {step < 4 ? 
+                                                <li>
                                                     <button className="btn btn-primary" type="button" onClick={handleNext}>
                                                         Suivant
                                                     </button>
-                                                : null}
-                                            </li>
-                                            <li>
-                                                <button className="btn btn-success">Valider</button>
-                                            </li>
+                                                </li> :
+                                                <li>
+                                                    {step < 5 ?
+                                                        <button className="btn btn-success" onClick={handlePaiementSubmit}
+                                                        disabled={isDisabled}>
+                                                            {isDisabled ? "Réservation en cours..." : "Validez la réservation"}
+                                                        </button>
+                                                    : null}
+                                                </li>}
                                         </ul>
                                     </div>
                                 </form>
@@ -209,6 +237,6 @@ export function InscriptionSteps(props) {
                 </div>
             </section>
         </>
-    )
+    );
 
-}
+};

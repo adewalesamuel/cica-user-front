@@ -48,7 +48,7 @@ export function AuthentificationStep(props) {
                 : 
                 <div className="col-12 mt-2">
                     <div className="alert alert-success">
-                        Vous connecté veuillez cliquer sur suivant !
+                        Vous êtes connecté veuillez cliquer sur suivant !
                     </div> 
                 </div> }
             </> :

@@ -50,8 +50,9 @@ export function LoginView(props) {
                                 </div>
                                 <div className="card-content">
                                     <div className="card-body">
-                                        <Components.ConnexionForm email={email} password={password} setEmail={setEmail}
-                                        setPassword={setPassword} isDisabled={isLogInDisabled} handleFormSubmit={handleConnexionSubmit}/>
+                                        <Components.ConnexionForm email={email} password={password} 
+                                        setEmail={setEmail} setPassword={setPassword} isDisabled={isLogInDisabled} 
+                                        handleFormSubmit={handleConnexionSubmit}/>
                                     </div>
                                 </div>
                             </div>

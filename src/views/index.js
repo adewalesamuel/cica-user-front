@@ -4,6 +4,8 @@ import { ResumeCreateView } from './ResumeCreateView';
 import { ResumeListView } from './ResumeListView';
 import { ResumeEditView } from './ResumeEditView';
 import { LoginView } from "./LoginView";
+import { AccountView } from "./AccountView";
+import { TelechargementListView } from "./TelechargementListView";
 
 export const Views = {
     InscriptionSteps,
@@ -11,5 +13,8 @@ export const Views = {
     ResumeCreateView,
     ResumeListView,
     ResumeEditView,
-    LoginView
+    LoginView,
+    AccountView,
+    TelechargementListView
+
 }

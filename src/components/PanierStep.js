@@ -3,6 +3,23 @@ export function PanierStep(props) {
         const packs = props.packs ?? [];
         return packs.find(pack => pack.id === props.usePack.id)
     }
+
+    const showCategoriesWithProgrammes = () => {
+        return (props.categories.map(categorie => {
+                return (
+                    categorie.programmes.map((programme, index) => {
+                        if (props.programmeIds.includes(programme.id)) {
+                            return (
+                                <li key={index}>
+                                    {programme.titre ?? ""}
+                                </li>
+                            )
+                        }
+                        
+                    })
+                )
+            }));
+    }
     return (
         <div className="row">
             <div className="col-lg-12">
@@ -26,20 +43,7 @@ export function PanierStep(props) {
                                         <li style={{textTransform: 'uppercase'}} className='mb-1'>
                                             {getPack() ? getPack().qualification: ''}
                                         </li>
-                                        {props.categories.map(categorie => {
-                                            return (
-                                                categorie.programmes.map((programme, index) => {
-                                                    if (props.programmeIds.includes(programme.id)) {
-                                                        return (
-                                                            <li key={index}>
-                                                                {programme.titre ?? ""}
-                                                            </li>
-                                                        )
-                                                    }
-                                                    
-                                                })
-                                            )
-                                        })}
+                                        {showCategoriesWithProgrammes()}
                                     </ul>
                                 </td>
                                 <td className="text-danger">€ {getPack() ? getPack().prix : ''}</td>
@@ -55,11 +59,12 @@ export function PanierStep(props) {
                         <div className="form-group">
                             <label htmlFor="paiement_gateway">Moyens de paiement</label>
                             <select className="form-control" id="paiement_gateway" 
-                            onChange={e => props.usePaiementGateway.setId(e.target.value)}>
+                            value={props.usePaiementGateway.nom ?? ""}
+                            onChange={e => props.usePaiementGateway.setNom(e.target.value)}>
                                 <option hidden>Selectionnez un moyen de paiement</option>
                                 {props.paiement_gateways.map((paiement_gateway, index) => {
                                     return (
-                                        <option value={paiement_gateway.id} key={index}>{paiement_gateway.nom}</option>
+                                        <option value={paiement_gateway.nom} key={index}>{paiement_gateway.nom}</option>
                                     )
                                 })}
                             </select>

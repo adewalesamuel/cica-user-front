@@ -15,11 +15,14 @@ export function ProgrammesStep(props) {
                                             <div className="checkbox">
                                                 <input type="checkbox" name="programme_id" id={`programme${programme.id}`}
                                                 onChange={e => props.handleCheckbox(e, programme.id)} 
-                                                checked={props.programmeIds.includes(programme.id)} value={""}/>
+                                                checked={props.programmeIds.includes(programme.id)} 
+                                                disabled={programme.nbr_places <= programme.nbr_place_inscrit}/>
                                                 <label htmlFor={`programme${programme.id}`} className="pl-1">
                                                     {programme.titre ?? ''} 
                                                     <small>
-                                                        &nbsp;le {new Date(programme.date).toLocaleDateString('fr-FR', {month: 'short', day: '2-digit', year: 'numeric'})} à <time>{programme.heure}</time>
+                                                        &nbsp;le {new Date(programme.date).toLocaleDateString('fr-FR', 
+                                                        {month: 'short', day: '2-digit', year: 'numeric'})} 
+                                                        à <time>{programme.heure}</time>
                                                     </small>
                                                 </label>
                                             </div>

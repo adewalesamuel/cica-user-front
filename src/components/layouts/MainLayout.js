@@ -18,7 +18,7 @@ export function MainLayout(props) {
 
     useEffect(() => {
         if (!isLoggedIn) navigate('/auth/connexion');
-    }, []);
+    }, [isLoggedIn, navigate]);
 
     if (!isLoggedIn) return null;
 
@@ -32,9 +32,11 @@ export function MainLayout(props) {
                         <div className="container-fluid">
                             <Routes>
                                 <Route exact path="" element={<Views.DashboardView />} />
+                                <Route exact path="profile" element={<Views.AccountView />} />
                                 <Route exact path="resumes/:id/modifier" element={<Views.ResumeEditView />} />
                                 <Route exact path="resumes/creer" element={<Views.ResumeCreateView />} />
                                 <Route exact path="resumes" element={<Views.ResumeListView />} />
+                                <Route exact path="telechargements" element={<Views.TelechargementListView />} />
                             </Routes>
                         </div>
                     </div>

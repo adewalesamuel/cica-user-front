@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Components } from "../components";
-import {Hooks} from '../hooks';
+import { Hooks } from '../hooks';
 import { Services } from "../services";
 import { useNavigate } from "react-router-dom";
 import { Api } from "../services/Api";

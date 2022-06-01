@@ -24,6 +24,7 @@ import { PacksStep } from './PacksStep';
 import { ProgrammesStep } from './ProgrammesStep';
 import { AuthentificationStep } from './AuthentificationStep';
 import { PanierStep } from './PanierStep';
+import { ThankyouStep } from './ThankyouStep';
 
 export const Components = {
 	MainLayout,
@@ -47,5 +48,6 @@ export const Components = {
 	ProgrammesStep,
 	AuthentificationStep,
 	PanierStep,
+	ThankyouStep
 	
 }

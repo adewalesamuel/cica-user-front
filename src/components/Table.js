@@ -53,20 +53,23 @@ export function Table(props) {
         let actions = props.tableActions.map((item, index) => {
             if (item === "edit")
                 return (
-                    <button key={Math.random()} data-index={dataIndex} data-id={data.id} className="ml-1 btn btn-light" 
+                    <button key={Math.random()} data-index={dataIndex} data-id={data.id} className="ml-1 btn"
+                    style={{backgroundColor: '#f3f5f7'}} 
                     onClick={(event, item) => props.handleEditClick(event, data) ?? null} >
                         <i className="dripicons-document-edit text-primary"></i>
                     </button>
                 );
             if (item === "info")
                 return (
-                <button key={Math.random()} data-index={dataIndex} data-id={data.id} className="ml-1 btn btn-light" 
+                <button key={Math.random()} data-index={dataIndex} data-id={data.id} className="ml-1 btn"
+                style={{backgroundColor: '#f3f5f7'}} 
                 onClick={(event, item) => props.handleInfoClick(event, data) ?? null}>
                     <i className="dripicons-information text-primary"></i>
                 </button>);
             if (item === "delete")
                 return (
-                <button key={Math.random()} data-index={dataIndex} data-id={data.id} className="ml-1 btn btn-light" 
+                <button key={Math.random()} data-index={dataIndex} data-id={data.id} className="ml-1 btn"
+                style={{backgroundColor: '#f3f5f7'}} 
                 onClick={(event, item) => props.handleDeleteClick(event, data) ?? null}>
                     <i className="dripicons-trash text-danger"></i>
                 </button>);

@@ -1,6 +1,9 @@
 import { Components } from '..'
+import { Utils } from '../../utils'
 
 export function UtilisateurForm(props) {
+    const isUserLoggedIn = Utils.Auth.getUser().id ? true : false;
+
     return (
         <div className='row'>
             <div className='col-12 col-lg-6'>
@@ -168,21 +171,22 @@ export function UtilisateurForm(props) {
                     onChange={ e => props.useUtilisateur.setConfirmerPassword(e.target.value) ?? null} required/>
                 </div>
             </div>
-            <div className='col-12 col-lg-6 pt-2'>
-                <div className="checkbox">
-                    <input type="checkbox" name="has_accepted_conditions" id="has_accepted_conditions"
-                    onChange={e => props.useUtilisateur.setHas_accepted_conditions(!props.useUtilisateur.has_accepted_conditions)} 
-                    checked={props.useUtilisateur.has_accepted_conditions} value={""}/>
-                    <label htmlFor="has_accepted_conditions" className="pl-1">
-                        Veuillez accepter les conditions d'utilisation !
-                    </label>
+            {!isUserLoggedIn ? 
+                <div className='col-12 col-lg-6 pt-2'>
+                    <div className="checkbox">
+                        <input type="checkbox" name="has_accepted_conditions" id="has_accepted_conditions"
+                        onChange={e => props.useUtilisateur.setHas_accepted_conditions(!props.useUtilisateur.has_accepted_conditions)} 
+                        checked={props.useUtilisateur.has_accepted_conditions} value={""}/>
+                        <label htmlFor="has_accepted_conditions" className="pl-1">
+                            Veuillez accepter les conditions d'utilisation !
+                        </label>
+                    </div>
                 </div>
-            </div>
-            
+            : null}
             <div className='col-12 text-right'>
                 <button disabled={props.isDisabled ?? false} type='button' className='btn btn-primary' 
                 onClick={props.handleFormSubmit}>
-                    <span>S'inscrire</span>
+                    <span>{!isUserLoggedIn ? "S'inscrire" : "Enregistrer"}</span>
                 </button>
             </div>
         </div>

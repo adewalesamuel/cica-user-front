@@ -13,8 +13,12 @@ const getAllResume = signal => {
     return Api.get(`${ENPOINTS.Utilisateur}/${Utils.Auth.getUser() ? Utils.Auth.getUser().id : ''}/resumes`);
 }
 
+const getAllInscription = signal => {
+    return Api.get(`${ENPOINTS.Utilisateur}/${Utils.Auth.getUser() ? Utils.Auth.getUser().id : ''}/inscriptions`);
+}
+
 const getById = (id, signal) => {
-    return Api.get(`${ENPOINTS.Utilisateur}/${id}`, signal);
+    return Api.get(`${ENPOINTS.Utilisateur}/${id}/profile`, signal);
 }
 
 const create = (payload, signal) => {
@@ -22,7 +26,7 @@ const create = (payload, signal) => {
 }
 
 const update = (id, payload, signal) => {
-    return Api.put(`${ENPOINTS.Utilisateur}/${id}`, payload, signal)
+    return Api.put(`${ENPOINTS.Utilisateur}/${id}/profile`, payload, signal)
 }
 const destroy = (id, signal) => {
     return Api.erase(`${ENPOINTS.Utilisateur}/${id}`, signal)
@@ -31,6 +35,7 @@ const destroy = (id, signal) => {
 export const UtilisateurService = {
     getAll,
     getAllResume,
+    getAllInscription,
     getById,
     create,
     update,

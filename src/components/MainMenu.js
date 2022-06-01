@@ -15,8 +15,20 @@ export function MainMenu(props) {
                         </li>
                         <li>
                             <NavLink exact="true" to="/resumes" className="waves-effect">
-                                <i className="mdi mdi-view-dashboard"></i>
+                                <i className="mdi mdi-notebook-multiple"></i>
                                 <span>Mes Resumes</span>
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink exact="true" to="/telechargements" className="waves-effect">
+                                <i className="mdi mdi-cloud-download"></i>
+                                <span>Téléchargements</span>
+                            </NavLink>
+                        </li>
+                         <li>
+                            <NavLink exact="true" to="/profile" className="waves-effect">
+                                <i className="mdi mdi-face"></i>
+                                <span>Mon profile</span>
                             </NavLink>
                         </li>
                     </ul>
