@@ -28,7 +28,7 @@ export function LoginView(props) {
             Utils.Auth.setSessionToken(response.utilisateur.api_token);
             Utils.Auth.setUser(response.utilisateur);
 
-            window.location.replace('/');
+            window.location.replace('/front');
         })
         .catch(err => {
             setIsLogInDisabled(false);

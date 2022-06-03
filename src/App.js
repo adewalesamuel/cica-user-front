@@ -4,7 +4,7 @@ import { Components } from './components';
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/front/">
       <Routes>
         <Route path="/auth/*" element={<Components.AuthLayout />}/>
         <Route path="/*" element={<Components.MainLayout />}/>
