@@ -2,7 +2,7 @@ import { Fragment } from "react";
 import { Link } from 'react-router-dom';
 
 export function Table(props) {
-    function renderTableHead() {
+    const renderTableHead = () => {
         if (!props.tableHead) return null;
 
         let tableHead = [...props.tableHead];
@@ -17,35 +17,17 @@ export function Table(props) {
             )
         })
     }
-
-    function renderTableData(data, dataIndex=0) {
+    const renderTableData = (data, dataIndex=0) => {
         let tableCells = [];
 
         for (const key in data)  {
             if (props.tableHead.includes(key)) {
-                if (props.cellDataAsLink && key in props.cellDataAsLink) {
-                    if (props.cellDataAsLink[key] && 'tableData' in props.cellDataAsLink[key] 
-                    && data[props.cellDataAsLink[key].tableData]) {
-                        tableCells.push(<td style={{borderBottom: "1px solid #DFE3E7"}} key={Math.random()}>
-                            <a href={data[props.cellDataAsLink[key].tableData]}>
-                                {data[key]}
-                            </a>
-                        </td>);
-                    } else {
-                        tableCells.push(<td style={{borderBottom: "1px solid #DFE3E7"}} key={Math.random()}>
-                                <Link to={props.cellDataAsLink[key] ?? `${props.location.pathname}/${data.id.toString()}`}>
-                                    {data[key]}
-                                </Link>
-                            </td>);
-                    }
-                } else if (props.cellDataClassNameByValue && key in props.cellDataClassNameByValue){
-                    tableCells.push(<td style={{borderBottom: "1px solid #DFE3E7"}} key={Math.random()}>
-                            <span className={props.cellDataClassNameByValue[key][data[key]]}>{data[key]}</span>
-                        </td>);
-                }else {
-                    tableCells.push(<td style={{borderBottom: "1px solid #DFE3E7"}} key={Math.random()}>{data[key]}</td>);
-                }
-            }
+                tableCells.push(<td style={{borderBottom: "1px solid #DFE3E7"}} 
+                key={Math.random()}>
+                    {data[key]}
+                </td>);
+            };
+            
         }
 
         if (!props.tableActions) return tableCells;
@@ -53,24 +35,29 @@ export function Table(props) {
         let actions = props.tableActions.map((item, index) => {
             if (item === "edit")
                 return (
-                    <button key={Math.random()} data-index={dataIndex} data-id={data.id} className="ml-1 btn"
-                    style={{backgroundColor: '#f3f5f7'}} 
-                    onClick={(event, item) => props.handleEditClick(event, data) ?? null} >
+                    <button key={Math.random()} data-index={dataIndex} data-id={data.id} 
+                    className="ml-1 btn" style={{backgroundColor: '#f3f5f7'}} 
+                    onClick={event => props.handleEditClick(event, data) ?? null} >
                         <i className="dripicons-document-edit text-primary"></i>
                     </button>
                 );
             if (item === "info")
                 return (
-                <button key={Math.random()} data-index={dataIndex} data-id={data.id} className="ml-1 btn"
-                style={{backgroundColor: '#f3f5f7'}} 
-                onClick={(event, item) => props.handleInfoClick(event, data) ?? null}>
+                <button key={Math.random()} data-index={dataIndex} data-id={data.id} 
+                className="ml-1 btn" style={{backgroundColor: '#f3f5f7'}} 
+                onClick={event => props.handleInfoClick(event, data) ?? null}>
                     <i className="dripicons-information text-primary"></i>
                 </button>);
             if (item === "delete")
                 return (
-                <button key={Math.random()} data-index={dataIndex} data-id={data.id} className="ml-1 btn"
-                style={{backgroundColor: '#f3f5f7'}} 
-                onClick={(event, item) => props.handleDeleteClick(event, data) ?? null}>
+                <button key={Math.random()} data-index={dataIndex} data-id={data.id} 
+                className="ml-1 btn" style={{backgroundColor: '#f3f5f7'}} 
+                onClick={event => {
+                    if (!window.confirm('Voulez vous vraiment supprimer cette entrée ?'))
+                        return;
+
+                    props.handleDeleteClick(event, data);
+                }}>
                     <i className="dripicons-trash text-danger"></i>
                 </button>);
             return null;
@@ -84,8 +71,32 @@ export function Table(props) {
 
         return tableCells;
     }
+    const renderChildrenRows = (item, index) => {
+        if (!item || !item.children) return;
 
-    function renderTableRows() {
+        return (
+            <>
+            <td  style={{borderRight: "1px solid #DFE3E7"}}></td>
+            <td colSpan="6" style={{padding: "0px"}}>
+                <table width="100%">
+                    <tbody>
+                        {
+                            item.children.map((childItem, childIndex) => {
+                                return (
+                                    <tr key={(index + 1) * Math.random()}>
+                                        {renderTableData(childItem, childIndex)}
+                                    </tr>
+                                )
+                            })
+                        }
+                    </tbody>
+
+                </table>
+            </td>
+            </>
+        )
+    }
+    const renderTableRows  = () =>  {
         if (!props.tableData) return null;
 
         return props.tableData.map((item,index) => {
@@ -95,27 +106,7 @@ export function Table(props) {
                         { renderTableData(item, index) }
                     </tr>
                     <tr key={(index + 1) * Math.random()}>
-                        { (item.children && item.children.length > 0) ?
-                            <>
-                                <td  style={{borderRight: "1px solid #DFE3E7"}}></td>
-                                <td colSpan="6" style={{padding: "0px"}}>
-                                    <table width="100%">
-                                        <tbody>
-                                            {
-                                                item.children.map((childItem, childIndex) => {
-                                                    return (
-                                                        <tr key={(index + 1) * Math.random()}>
-                                                            {renderTableData(childItem, childIndex)}
-                                                        </tr>
-                                                    )
-                                                })
-                                            }
-                                        </tbody>
-
-                                    </table>
-                                </td>
-                            </> : null
-                        }
+                        {renderChildrenRows(item, index)}
                     </tr>
                 </Fragment>
             )

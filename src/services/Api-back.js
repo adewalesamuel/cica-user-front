@@ -23,14 +23,10 @@ const get = (endpoint, signal=new AbortController().signal) => {
         })
         .then(response => {
             if (!response.ok) {
-                const error = {
+                return reject({
                     status: response.status,
-                    message: getResponseErrors(response),
-                };
-
-                error.message.then(err => alert(err.join('\n')));
-
-                return reject(error);
+                    messages: getResponseErrors(response)
+                    });
             }
 
             return response.json();
@@ -38,7 +34,7 @@ const get = (endpoint, signal=new AbortController().signal) => {
         .then(result => {
             resolve(result)
         })
-        .catch(error => {reject(error)})
+        .catch(error => reject(error))
     })
 }
 
@@ -53,14 +49,10 @@ const post = (endpoint, payload='', signal=new AbortController().signal) => {
         })
         .then(response => {
             if (!response.ok) {
-                const error = {
+                return reject({
                     status: response.status,
-                    message: getResponseErrors(response),
-                };
-
-                error.message.then(err => alert(err.join('\n')));
-
-                return reject(error);
+                    messages: getResponseErrors(response)
+                    });
             }
 
             return response.json();
@@ -68,7 +60,7 @@ const post = (endpoint, payload='', signal=new AbortController().signal) => {
         .then(result => {
             resolve(result)
         })
-        .catch(error => {reject(error)})
+        .catch(error => reject(error))
     })
 }
 const postFormData = (endpoint, payload='', signal=new AbortController().signal) => {
@@ -82,14 +74,10 @@ const postFormData = (endpoint, payload='', signal=new AbortController().signal)
         })
         .then(response => {
             if (!response.ok) {
-                const error = {
+                return reject({
                     status: response.status,
-                    message: getResponseErrors(response),
-                };
-
-                error.message.then(err => alert(err.join('\n')));
-
-                return reject(error);
+                    messages: getResponseErrors(response)
+                    });
             }
 
             return response.json();
@@ -112,15 +100,11 @@ const put = (endpoint, payload='', signal=new AbortController().signal) => {
         })
         .then(response => {
             if (!response.ok) {
-                const error = {
+                return reject({
                     status: response.status,
-                    message: getResponseErrors(response),
-                };
-
-                error.message.then(err => alert(err.join('\n')));
-
-                return reject(error);
-            }
+                    messages: getResponseErrors(response)
+                    });
+            } 
 
             return response.json();
         })
@@ -141,14 +125,10 @@ const erase = (endpoint, signal=new AbortController().signal) => {
         })
         .then(response => {
             if (!response.ok) {
-                const error = {
+                return reject({
                     status: response.status,
-                    message: getResponseErrors(response),
-                };
-
-                error.message.then(err => alert(err.join('\n')));
-
-                return reject(error);
+                    messages: getResponseErrors(response)
+                    });
             }
 
             return response.json();
