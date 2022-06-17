@@ -19,11 +19,11 @@ export function ProgrammesStep(props) {
                                                 disabled={programme.nbr_places <= programme.nbr_place_inscrit}/>
                                                 <label htmlFor={`programme${programme.id}`} className="pl-1">
                                                     {programme.titre ?? ''} 
-                                                    <small>
+                                                    <span>
                                                         &nbsp;le {new Date(programme.date).toLocaleDateString('fr-FR', 
                                                         {month: 'short', day: '2-digit', year: 'numeric'})} 
                                                         à <time>{programme.heure}</time>
-                                                    </small>
+                                                    </span>
                                                 </label>
                                             </div>
                                         </fieldset>

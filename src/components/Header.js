@@ -72,7 +72,7 @@ export function Header(props) {
                             <div className="dropdown-menu dropdown-menu-right" style={{display:'block'}}>
                                 <Link className="dropdown-item" to="/profile">
                                     <i className="mdi mdi-face-profile font-size-16 align-middle mr-1"></i> 
-                                    Profile
+                                    Profil
                                 </Link>
                                 {/* <a className="dropdown-item" href="##"><i className="mdi mdi-credit-card-outline font-size-16 align-middle mr-1"></i> Billing</a>
                                 <a className="dropdown-item" href="##"><i className="mdi mdi-account-settings font-size-16 align-middle mr-1"></i> Settings</a>

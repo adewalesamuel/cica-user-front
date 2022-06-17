@@ -12,7 +12,7 @@ export function PacksStep(props) {
         </p>
         <ul style={{listStyleType: 'initial', paddingLeft: "30px"}}>
             <li>
-                Sélection d’un pack selon une qualification (Médecin, paramédical, 
+                Sélection d’un pack selon la catégorie professionnel (Médecin, paramédical, 
                 membres, étudiant). Le pack comprend Conférences, ateliers, collation, 
                 buffet journalier. Le prix du pack varie en fonction de la qualification.
             </li>
@@ -36,7 +36,7 @@ export function PacksStep(props) {
                                     }}/>
                                 <label htmlFor={`pack${pack.id}`}>
                                     <span className="pl-1">{pack.qualification ?? ''}</span>
-                                    <span className="text-success ml-1">{pack.prix ?? ''}</span>
+                                    <span className="text-success ml-1">{pack.prix ?? ''} €</span>
                                 </label>
                             </div>
                         </fieldset>

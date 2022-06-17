@@ -9,11 +9,16 @@ import packIcon from '../app-assets/images/icon/packs.svg';
 import programmeIcon from '../app-assets/images/icon/programmes.svg';
 import authIcon from '../app-assets/images/icon/authentfication.svg';
 import resumeIcon from '../app-assets/images/icon/resume.svg';
+import { useSearchParams } from "react-router-dom";
 
 export function InscriptionSteps(props) {
     const abortController = useMemo(() => {
         return new AbortController();
     }, []);
+
+    const isPaymentSuccess = useSearchParams()[0].get('success');
+    const isPaymentCanceled = useSearchParams()[0].get('canceled');
+    const payment_id = useSearchParams()[0].get('payment_id');
 
     const usePack = Hooks.usePack();
     const useUtilisateur = Hooks.useUtilisateur();
@@ -126,17 +131,35 @@ export function InscriptionSteps(props) {
         setIsDisabled(true);
         Services.InscriptionService.create(JSON.stringify(payload), abortController.signal)
         .then(response => {
-            console.log(response);
-            setStep(5);
+            window.location.assign(response.payment_gateway_url);
+
             setIsDisabled(false)
         })
         .catch(err => {
-            console.log(err)
             setIsDisabled(false);
         });
     }
 
     useEffect(() => {
+        if (payment_id) {
+            const payload = { payment_id };
+
+            setStep(5);
+            
+            if (isPaymentSuccess) {
+                Services.InscriptionService.validatePayment(JSON.stringify(payload), abortController.signal)
+                .then(response => console.log(response))
+                .catch(err => null);
+            }
+          
+            if (isPaymentCanceled) {
+                Services.InscriptionService.cancelPayment(JSON.stringify(payload), abortController.signal)
+                .then(response => console.log(response))
+                .catch(err => null);
+            }
+
+            return;
+        };
         (async function(){
             try {
                 let response = null;
@@ -210,7 +233,7 @@ export function InscriptionSteps(props) {
                                             <li className="">
                                                 {(step > 1 && step < 5) ? 
                                                     <button className="btn btn-light" type="button" hidden={step === 1} 
-                                                    onClick={handlePrevious}>Pécedent</button>
+                                                    onClick={handlePrevious} disabled={isDisabled}>Pécedent</button>
                                                 : null}
                                             </li>
                                             {step < 4 ? 

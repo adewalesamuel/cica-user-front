@@ -16,7 +16,7 @@ export function MainMenu(props) {
                         <li>
                             <NavLink exact="true" to="/resumes" className="waves-effect">
                                 <i className="mdi mdi-notebook-multiple"></i>
-                                <span>Mes Resumes</span>
+                                <span>Appels à communication</span>
                             </NavLink>
                         </li>
                         <li>
@@ -28,7 +28,7 @@ export function MainMenu(props) {
                          <li>
                             <NavLink exact="true" to="/profile" className="waves-effect">
                                 <i className="mdi mdi-face"></i>
-                                <span>Mon profile</span>
+                                <span>Mon profil</span>
                             </NavLink>
                         </li>
                     </ul>

@@ -19,6 +19,15 @@ const create = (payload, signal) => {
 const update = (id, payload, signal) => {
     return Api.put(`${ENPOINTS.Inscription}/${id}`, payload, signal)
 }
+
+const validatePayment = (payload, signal) => {
+    return Api.put(`${ENPOINTS.Inscription}/success`, payload, signal);
+}
+
+const cancelPayment = (payload, signal) => {
+    return Api.put(`${ENPOINTS.Inscription}/cancel`, payload, signal);
+}
+
 const destroy = (id, signal) => {
     return Api.erase(`${ENPOINTS.Inscription}/${id}`, signal)
 }
@@ -28,5 +37,7 @@ export const InscriptionService = {
     getById,
     create,
     update,
-    destroy
+    destroy,
+    validatePayment,
+    cancelPayment
 }
